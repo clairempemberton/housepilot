@@ -14,11 +14,9 @@ import { restart } from './plugins/restart';
 import { restartEnvFileChange } from './plugins/restartEnvFileChange';
 
 export default defineConfig({
-  // Keep them available via import.meta.env.NEXT_PUBLIC_*
   envPrefix: 'NEXT_PUBLIC_',
+
   optimizeDeps: {
-    // Explicitly include fast-glob, since it gets dynamically imported and we
-    // don't want that to cause a re-bundle.
     include: ['fast-glob', 'lucide-react'],
     exclude: [
       '@hono/auth-js/react',
@@ -31,7 +29,17 @@ export default defineConfig({
       'lightningcss',
     ],
   },
+
   logLevel: 'info',
+
+  build: {
+    target: 'es2022',
+  },
+
+  esbuild: {
+    target: 'es2022',
+  },
+
   plugins: [
     nextPublicProcessEnv(),
     restartEnvFileChange(),
@@ -40,10 +48,10 @@ export default defineConfig({
       runtime: 'node',
     }),
     babel({
-      include: ['src/**/*.{js,jsx,ts,tsx}'], // or RegExp: /src\/.*\.[tj]sx?$/
-      exclude: /node_modules/, // skip everything else
+      include: ['src/**/*.{js,jsx,ts,tsx}'],
+      exclude: /node_modules/,
       babelConfig: {
-        babelrc: false, // don’t merge other Babel files
+        babelrc: false,
         configFile: false,
         plugins: ['styled-jsx/babel'],
       },
@@ -66,6 +74,7 @@ export default defineConfig({
     aliases(),
     layoutWrapperPlugin(),
   ],
+
   resolve: {
     alias: {
       lodash: 'lodash-es',
@@ -77,7 +86,9 @@ export default defineConfig({
     },
     dedupe: ['react', 'react-dom'],
   },
+
   clearScreen: false,
+
   server: {
     allowedHosts: true,
     host: '0.0.0.0',

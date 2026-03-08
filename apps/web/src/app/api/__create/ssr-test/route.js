@@ -2,7 +2,7 @@ import { getToken } from '@auth/core/jwt';
 import React from 'react';
 import path from 'node:path';
 import { renderToString } from 'react-dom/server';
-import routes from '../../../routes';
+import routes from '../../../routes.ts';
 import { serializeError } from 'serialize-error';
 import cleanStack from 'clean-stack';
 

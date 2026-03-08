@@ -50,7 +50,7 @@ function SignInPage() {
       await signInWithCredentials({
         email,
         password,
-        callbackUrl: "/dashboard",
+        callbackUrl: "/upgrade",
         redirect: true,
       });
     } catch (err) {
