@@ -1,0 +1,19 @@
+import sql from "@/app/api/utils/sql";
+import { auth } from "@/auth";
+
+export async function GET() {
+  try {
+    const session = await auth();
+    if (!session || !session.user?.id) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const userId = session.user.id;
+    const rows =
+      await sql`SELECT id, name, email, image, onboarding_completed FROM auth_users WHERE id = ${userId} LIMIT 1`;
+    const user = rows?.[0] || null;
+    return Response.json({ user });
+  } catch (err) {
+    console.error("GET /api/profile error", err);
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
